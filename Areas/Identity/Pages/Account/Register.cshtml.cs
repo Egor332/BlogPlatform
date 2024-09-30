@@ -10,6 +10,7 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading;
 using System.Threading.Tasks;
+using BlogPlatform.Controllers;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -142,7 +143,10 @@ namespace BlogPlatform.Areas.Identity.Pages.Account
                     else
                     {
                         await _signInManager.SignInAsync(user, isPersistent: false);
-                        return LocalRedirect(returnUrl);
+                        var token = Guid.NewGuid().ToString();
+                        TempData["CreateToken"] = token;
+
+                        return RedirectToAction("Create", "UserPages", new { token = token});
                     }
                 }
                 foreach (var error in result.Errors)

@@ -16,8 +16,35 @@ namespace BlogPlatform.Controllers
             {
                 return NotFound();
             }
-            UserPage page = await _context.UserPages.FindAsync(id);
+            UserPage page = await _context.UserPages.FindAsync();
+            if (page == null)
+            {
+                return NotFound();
+            }
+            return View(page);
+        }
+
+        // GET request
+        public IActionResult Create(string? token)
+        {
+            if (string.IsNullOrEmpty(token) || (token != TempData["CreateToken"]?.ToString()))
+            {
+                return NotFound();
+            }
             return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("Id, UserName, Bio, BirthDate, UserId")] UserPage page)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(page);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Index", page.Id);
+            }
+            return View(page);
         }
     }
 }

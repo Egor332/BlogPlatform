@@ -82,7 +82,22 @@ namespace BlogPlatform
 
             }
 
+
+            // await DeleteByEmail(app, "firstAuthor@gmail.com");
             app.Run();
+        }
+
+        public async static Task DeleteByEmail(WebApplication app, string email)
+        {
+            using (var scope = app.Services.CreateScope())
+            {
+                var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+                var user = await userManager.FindByEmailAsync(email);
+                if (user != null) 
+                {
+                    await userManager.DeleteAsync(user);
+                }
+            }
         }
     }
 }
