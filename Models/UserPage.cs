@@ -7,13 +7,11 @@ namespace BlogPlatform.Models
     public class UserPage
     {
         public int Id { get; set; }
-        
-        
 
-        [Required]
-        public string? UserId { get; set; }
+        public required string UserId { get; set; }
         [ForeignKey("UserId")]
-        public IdentityUser? User { get; set; }
+        public required ApplicationUser User { get; set; }
 
     }
 }
+ 

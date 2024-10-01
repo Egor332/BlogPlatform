@@ -1,4 +1,5 @@
 using BlogPlatform.Data;
+using BlogPlatform.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,7 +17,7 @@ namespace BlogPlatform
                 options.UseSqlServer(connectionString));
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-            builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
+            builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             builder.Services.AddControllersWithViews();
@@ -64,16 +65,17 @@ namespace BlogPlatform
 
             using (var scope = app.Services.CreateScope())
             {
-                var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+                var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 
                 string email = "admin@admin.ad";
                 string password = "Admin01;";
 
                 if (await userManager.FindByEmailAsync(email) == null)
                 {
-                    var user = new IdentityUser();
+                    var user = new ApplicationUser();
                     user.UserName = email;
                     user.Email = email;
+                    user.PublicName = "FirstAdmin";
 
                     await userManager.CreateAsync(user, password);
                     await userManager.AddToRoleAsync(user, "Admin");
@@ -82,8 +84,6 @@ namespace BlogPlatform
 
             }
 
-
-            // await DeleteByEmail(app, "firstAuthor@gmail.com");
             app.Run();
         }
 
@@ -91,7 +91,7 @@ namespace BlogPlatform
         {
             using (var scope = app.Services.CreateScope())
             {
-                var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+                var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
                 var user = await userManager.FindByEmailAsync(email);
                 if (user != null) 
                 {
