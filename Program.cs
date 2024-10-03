@@ -52,6 +52,7 @@ namespace BlogPlatform
 
             await CheckForAdmin(app);
 
+            // await DeleteByEmail(app, "seccond@gmail.com");
             app.Run();
         }
 

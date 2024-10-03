@@ -1,10 +1,11 @@
 ﻿@using BlogPlatform.Models
 @model EditUserViewModel
 
+<h1>Some text</h1>
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger">
+        <form asp-action="Edit" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"/>
                 <div class="form-group">
                     <label asp-for="PublicName" class="control-label">Public name:</label>
                     <input asp-for="PublicName" class="form-control"/>
@@ -26,7 +27,7 @@
                 <div class="form-group">
                     <input type="submit" class="btn btn-primary mt-2" value="Edit" />
                 </div>
-            </div>
+            
 
         </form>
     </div>
