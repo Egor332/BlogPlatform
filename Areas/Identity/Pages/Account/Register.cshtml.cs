@@ -146,7 +146,7 @@ namespace BlogPlatform.Areas.Identity.Pages.Account
                         var token = Guid.NewGuid().ToString();
                         TempData["CreateToken"] = token;
 
-                        return RedirectToAction("Create", "UserPages", new { token = token});
+                        return RedirectToAction("Edit", "ApplicationUser");
                     }
                 }
                 foreach (var error in result.Errors)

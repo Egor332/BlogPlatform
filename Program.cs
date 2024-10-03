@@ -48,6 +48,15 @@ namespace BlogPlatform
                 pattern: "{controller=Home}/{action=Index}/{id?}");
             app.MapRazorPages();
 
+            await CheckForRoles(app);
+
+            await CheckForAdmin(app);
+
+            app.Run();
+        }
+
+        public static async Task CheckForRoles(WebApplication app)
+        {
             using (var scope = app.Services.CreateScope())
             {
                 var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
@@ -62,7 +71,10 @@ namespace BlogPlatform
                     }
                 }
             }
+        }
 
+        public static async Task CheckForAdmin(WebApplication app)
+        {
             using (var scope = app.Services.CreateScope())
             {
                 var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
@@ -83,8 +95,6 @@ namespace BlogPlatform
                 }
 
             }
-
-            app.Run();
         }
 
         public async static Task DeleteByEmail(WebApplication app, string email)

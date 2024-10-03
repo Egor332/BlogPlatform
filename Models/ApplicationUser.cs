@@ -4,8 +4,7 @@ using System.ComponentModel.DataAnnotations;
 namespace BlogPlatform.Models
 {
     public class ApplicationUser : IdentityUser
-    {
-        [Required]
+    {         
         public string? PublicName { get; set; }
         public string? Bio { get; set; }
         public DateOnly BirthDate { get; set; }
